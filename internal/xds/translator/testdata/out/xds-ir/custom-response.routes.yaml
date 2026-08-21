@@ -25,6 +25,8 @@
       name: httproute/default/httproute-1/rule/0/match/-1/*
       route:
         cluster: httproute/default/httproute-1/rule/0
+        internalRedirectPolicy:
+          allowCrossSchemeRedirect: true
         upgradeConfigs:
         - upgradeType: websocket
       typedPerFilterConfig:

@@ -622,5 +622,22 @@ func (c *customResponse) patchRoute(route *routev3.Route, irRoute *ir.HTTPRoute,
 	}); err != nil {
 		return err
 	}
+
+	for _, rule := range irRoute.Traffic.ResponseOverride.Rules {
+		if rule.Redirect == nil || rule.Redirect.Scheme == nil {
+			continue
+		}
+
+		routeAction := route.GetRoute()
+		if routeAction == nil {
+			break
+		}
+		if routeAction.InternalRedirectPolicy == nil {
+			routeAction.InternalRedirectPolicy = &routev3.InternalRedirectPolicy{}
+		}
+		routeAction.InternalRedirectPolicy.AllowCrossSchemeRedirect = true
+		break
+	}
+
 	return nil
 }
